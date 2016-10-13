@@ -3,7 +3,17 @@ $(document).ready(function() {
     //video.addEventListener('click',function(){
     //    video.play();
     //},false);
+    $('.loser-page').hide();
+    $('.hash-page').hide();
     $('.spin').hide();
+    var location = window.location.pathname;
+    location = location.substr(location.indexOf("/") + 1);
+    
+    if ( $( "#video"+location ).length ) {
+ 
+        $( ".opening-sequence-container" ).attr("onclick", "setTimeout($('#video"+location+"').get(0).play(),4000)");
+        
+    }
 
     $('.result').hide();
     //    $('.video-container').hide();
@@ -13,7 +23,7 @@ $(document).ready(function() {
         console.log(info)
         $("#thisIsMyID").text(info[1]);
         $("#thisIsMyAsset").text(info[2]);
-        
+
         console.log($(this).children().text());
         $(".toggleTxt" + $(this).attr("id")).text(info[0]);
         $(".toggleTxt" + $(this).attr("id")).val(info[0]);
@@ -27,15 +37,15 @@ $(document).ready(function() {
     $(".rigTablet").on("click", function() {
         var tabletIndex = $(this).attr("id");
         var prizeName = $(".toggleTxt" + tabletIndex).text();
-//        var id = $(".toggleTxt" + tabletIndex " a").text();
-//        var assetString = $("#asset" + tabletIndex);
+        //        var id = $(".toggleTxt" + tabletIndex " a").text();
+        //        var assetString = $("#asset" + tabletIndex);
         var id = $("#thisIsMyID").text();
         var assetString = $("#thisIsMyAsset").text();
-        var nextTouch = $("#checkbox"+tabletIndex).val();
+        var nextTouch = $("#checkbox" + tabletIndex).val();
 
-//        var id = $(this).parent();
+        //        var id = $(this).parent();
         console.log("nex", nextTouch);
-        if (nextTouch === 'on'){
+        if (nextTouch === 'on') {
             nextTouch = true;
         }
         var data = {
@@ -95,9 +105,9 @@ $(document).ready(function() {
                                 showingVid = true;
                                 console.log("2 seconds left!")
                                 $('.individual-matrix-square').parent().fadeOut('slow', function() {
-                                console.log("prizeInfo", prizeInfo)
-                                $('#'+prizeInfo.id).show();
-                            })
+                                    console.log("prizeInfo", prizeInfo)
+                                    $('#' + prizeInfo.id).show();
+                                })
                             }
                         }, 1000);
 
@@ -124,9 +134,9 @@ $(document).ready(function() {
                                 showingVid = true;
                                 console.log("2 seconds left!")
                                 $('.individual-matrix-square').parent().fadeOut('slow', function() {
-                                console.log("prizeInfo", prizeInfo)
-                                $('.winner-video').show();
-                            })
+                                    console.log("prizeInfo", prizeInfo)
+                                    $('.winner-video').show();
+                                })
                             }
                         }, 1000);
 
@@ -182,58 +192,142 @@ $(document).ready(function() {
             }
         });
     }
+    $(".winner-image").hide();
+    var doWinnerSequence = function() {
+        $(".opening-sequence-container").fadeOut("slow", function() {
+            $(".winner-image").fadeIn("slow", function() {
+                console.log("showing winner image.");
+                $("#video"+location)[0].pause();
+            })
+        })
+    }
+    function UrlExists(url) {
+        var http = new XMLHttpRequest();
+        http.open('HEAD', url, false);
+        http.send();
+        return http.status!=404;
+    }
+    var fadeToHashtag = function(){
+        $(".loser-page").fadeOut("slow", function(){
+            $(".hash-page").fadeIn("slow")
+        })
+    }
 
-    $(".individual-matrix-square").on("click", function() {
-        console.log("in here")
-        var index = $(this).attr('id');
-        checkIfWinner(index);
+    var doLoserSequence = function() {
+        console.log("doing loser")
+        var location = window.location.pathname;
+        location = location.substr(location.indexOf("/") + 1);
+        console.log(location)
+        $(".opening-sequence-container").fadeOut("slow", function() {
+            console.log("fadeded out ")
+            console.log("exist", UrlExists("/assets/loser-images/" + location + ".jpg"));
+            
+            if(UrlExists("/assets/loser-images/" + location + ".jpg") !== false){
+                $("#loser-video").hide();
+                $(".loser-image").css("background-image", "url('/assets/loser-images/" + location + ".jpg')");
+                $(".loser-image").css("z-index", "99999999999");
+                $(".loser-video").css("z-index", "-1");
+                
+                $(".loser-page").fadeIn("slow", function() {
+                    console.log("loaded")
+                })
+                 setTimeout(fadeToHashtag, 10000)
+            } else {
+                $("#video"+location).css("z-index", "99999999999");
+                $(".loser-page").fadeIn("slow", function() {   
+                    $("#video"+location)[0].play();
+                    console.log("loaded");
+                        var showingVid = false;
+                        setInterval(function() {
+                            if (showingVid == false){
+                                if ($("#video"+location).get(0).currentTime > $("#video"+location).get(0).duration - 2) {
+                                showingVid = true;
+                                console.log("2 seconds left!")
+                                $("#video"+location).parent().fadeOut('slow', function() {
+                                        setTimeout(fadeToHashtag, 100)
+
+                                })
+                            }
+                            }
+
+                        }, 1000);
+                    
+                    
+                    
+                })
+            }
+           
+        })
+    }
+    var checkIfWinnerNew = function() {
+        console.log("new")
+        $.ajax({
+            type: "POST",
+            url: "/riggedOnlyWinner/",
+            success: function(response) {
+                console.log(response);
+                if (response[0].immediateWin === true) {
+                    doWinnerSequence();
+                } else {
+                    doLoserSequence();
+                }
+            }
+        });
+    }
+
+    $(".opening-sequence-container").on("click", function() {
+        checkIfWinnerNew();
     })
+
+    //    $(".individual-matrix-square").on("click", function() {
+    //        checkIfWinnerNew();
+    //    })
 
 
 
     var untouchedPads = [];
 
-    function addLocation() {
-
-        untouchedPads.push(window.location.pathname);
-    }
-    var removeLocation = function() {
-        console.log(untouchedPads)
-        for (var i = 0; i < untouchedPads.length; i++) {
-            if (window.location.pathname === untouchedPads[i]) {
-                untouchedPads.splice(i, 1);
-            }
-        }
-    }
-    var initial = setTimeout(addLocation, 6000);
-
-    $(document).click(function(event) {
-        removeLocation();
-        clearTimeout(initial);
-        initial = setTimeout(addLocation, 12000);
-    });
-    var randomSpin = function() {
-        if (window.location.pathname === untouchedPads[0]) {
-            console.log("doing it")
-            $('.individual-matrix-square').hide();
-            $('.spin').show().get(0).play();
-            //            $('.individual-matrix-square').attr('src', "./assets/spin-video.mp4");
-            //            $('.individual-matrix-square')[0].load();
-            //            $('.individual-matrix-square').get(0).play();
-            $(".spin").bind('ended', function() {
-                $('.spin').hide()
-                $('.individual-matrix-square').show();
-                console.log("vuideo faded outfrom random spin")
-                    //                $('.individual-matrix-square').attr('src', "./assets/openbox.m4v");
-                    //                $('.individual-matrix-square')[0].load();
-                    //                                            $('.individual-matrix-square').get(0).play();
-            })
-        }
-
-    }
-    setInterval(function() {
-        randomSpin();
-    }, Math.floor(Math.random() * 120000) + 60000)
-    console.log()
+    //    function addLocation() {
+    //
+    //        untouchedPads.push(window.location.pathname);
+    //    }
+    //    var removeLocation = function() {
+    //        console.log(untouchedPads)
+    //        for (var i = 0; i < untouchedPads.length; i++) {
+    //            if (window.location.pathname === untouchedPads[i]) {
+    //                untouchedPads.splice(i, 1);
+    //            }
+    //        }
+    //    }
+    //    var initial = setTimeout(addLocation, 6000);
+    //
+    //    $(document).click(function(event) {
+    //        removeLocation();
+    //        clearTimeout(initial);
+    //        initial = setTimeout(addLocation, 12000);
+    //    });
+    //    var randomSpin = function() {
+    //        if (window.location.pathname === untouchedPads[0]) {
+    //            console.log("doing it")
+    //            $('.individual-matrix-square').hide();
+    //            $('.spin').show().get(0).play();
+    //            //            $('.individual-matrix-square').attr('src', "./assets/spin-video.mp4");
+    //            //            $('.individual-matrix-square')[0].load();
+    //            //            $('.individual-matrix-square').get(0).play();
+    //            $(".spin").bind('ended', function() {
+    //                $('.spin').hide()
+    //                $('.individual-matrix-square').show();
+    //                console.log("vuideo faded outfrom random spin")
+    //                    //                $('.individual-matrix-square').attr('src', "./assets/openbox.m4v");
+    //                    //                $('.individual-matrix-square')[0].load();
+    //                    //                                            $('.individual-matrix-square').get(0).play();
+    //            })
+    //        }
+    //
+    //    }
+    //    setInterval(function() {
+    //        randomSpin();
+    //    }, Math.floor(Math.random() * 120000) + 60000)
+    //    console.log()
 
 })

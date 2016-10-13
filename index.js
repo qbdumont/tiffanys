@@ -42,75 +42,101 @@ app.get('/:index', function(request, response) {
     }
 });
 
-app.post('/winner/:index', function(req, res) {
-    console.log(req.params.index)
+app.post('/riggedOnlyWinner/', function(req, res) {
     if (immediateWin.length) {
         for (var i = 0; i < immediateWin.length; i++) {
-            console.log("immediate win", immediateWin[i].nextTouch)
-            if (immediateWin[i].nextTouch === true){
+          if(immediateWin[i].nextTouch){
                 var results = [{
                     immediateWin: true,
                     prizeName: immediateWin[i].prizeName,
                     prizeAsset: immediateWin[i].prizeAsset,
                     id: immediateWin[i].id
                 }]
-                                                console.log(results)
-
+                console.log(results)
                 immediateWin.splice(i, 1);
-                    res.send(results);
-            }
-            else if (req.params.index === immediateWin[i].tablet && immediateWin[i].nextTouch !== true) {
-                var results = [{
-                    immediateWin: true,
-                    prizeName: immediateWin[i].prizeName,
-                    prizeAsset: immediateWin[i].prizeAsset,
-                    id: immediateWin[i].id
-                }]
-                                console.log(results)
-
-                immediateWin.splice(i, 1);
-                    res.send(results);
-
-            } else if (immediateWin[i].nextTouch !== true) {
-                      var r = Math.floor((Math.random() * 100) + 1);
-        console.log(r <= highPercentage, r <= mediumPercentage, r <= lowPercentage, "test", immediateWin);
-
-        var results = [{
-            immediateWin: false,
-            highPercentagePrize: r <= highPercentage,
-            winnerVideo: config.highPercentWinVid
-        }, {
-            immediateWin: false,
-            mediumPercentagePrize: r <= mediumPercentage,
-            winnerVideo: config.mediumPercentWinVid
-        }, {
-            immediateWin: false,
-            lowPercentagePrize: r <= lowPercentage,
-            winnerVideo: config.lowPercentWinVid
-        }]
-            res.send(results);  
-            }
+                res.send(results);
+          }
         }
     } else {
-        var r = Math.floor((Math.random() * 100) + 1);
-        console.log(r <= highPercentage, r <= mediumPercentage, r <= lowPercentage, "test", immediateWin);
-
         var results = [{
             immediateWin: false,
-            highPercentagePrize: r <= highPercentage,
-            winnerVideo: config.highPercentWinVid
-        }, {
-            immediateWin: false,
-            mediumPercentagePrize: r <= mediumPercentage,
-            winnerVideo: config.mediumPercentWinVid
-        }, {
-            immediateWin: false,
-            lowPercentagePrize: r <= lowPercentage,
-            winnerVideo: config.lowPercentWinVid
+            prizeName: null,
+            prizeAsset: null,
+            id: null
         }]
-            res.send(results);
+        res.send(results)
     }
 })
+
+//app.post('/winner/:index', function(req, res) {
+//    console.log(req.params.index)
+//    if (immediateWin.length) {
+//        for (var i = 0; i < immediateWin.length; i++) {
+//            console.log("immediate win", immediateWin[i].nextTouch)
+//            if (immediateWin[i].nextTouch === true){
+//                var results = [{
+//                    immediateWin: true,
+//                    prizeName: immediateWin[i].prizeName,
+//                    prizeAsset: immediateWin[i].prizeAsset,
+//                    id: immediateWin[i].id
+//                }]
+//                                                console.log(results)
+//
+//                immediateWin.splice(i, 1);
+//                    res.send(results);
+//            }
+//            else if (req.params.index === immediateWin[i].tablet && immediateWin[i].nextTouch !== true) {
+//                var results = [{
+//                    immediateWin: true,
+//                    prizeName: immediateWin[i].prizeName,
+//                    prizeAsset: immediateWin[i].prizeAsset,
+//                    id: immediateWin[i].id
+//                }]
+//                                console.log(results)
+//
+//                immediateWin.splice(i, 1);
+//                    res.send(results);
+//
+//            } else if (immediateWin[i].nextTouch !== true) {
+//                      var r = Math.floor((Math.random() * 100) + 1);
+//        console.log(r <= highPercentage, r <= mediumPercentage, r <= lowPercentage, "test", immediateWin);
+//
+//        var results = [{
+//            immediateWin: false,
+//            highPercentagePrize: r <= highPercentage,
+//            winnerVideo: config.highPercentWinVid
+//        }, {
+//            immediateWin: false,
+//            mediumPercentagePrize: r <= mediumPercentage,
+//            winnerVideo: config.mediumPercentWinVid
+//        }, {
+//            immediateWin: false,
+//            lowPercentagePrize: r <= lowPercentage,
+//            winnerVideo: config.lowPercentWinVid
+//        }]
+//            res.send(results);  
+//            }
+//        }
+//    } else {
+//        var r = Math.floor((Math.random() * 100) + 1);
+//        console.log(r <= highPercentage, r <= mediumPercentage, r <= lowPercentage, "test", immediateWin);
+//
+//        var results = [{
+//            immediateWin: false,
+//            highPercentagePrize: r <= highPercentage,
+//            winnerVideo: config.highPercentWinVid
+//        }, {
+//            immediateWin: false,
+//            mediumPercentagePrize: r <= mediumPercentage,
+//            winnerVideo: config.mediumPercentWinVid
+//        }, {
+//            immediateWin: false,
+//            lowPercentagePrize: r <= lowPercentage,
+//            winnerVideo: config.lowPercentWinVid
+//        }]
+//            res.send(results);
+//    }
+//})
 
 
 app.get('/', function(request, response) {

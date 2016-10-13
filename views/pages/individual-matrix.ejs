@@ -6,7 +6,39 @@
 
 <body id="body">
 
+<div class="opening-sequence-container">
+    <img src="/assets/opening-sequence.jpg" alt="">
+</div>
+<div class="winner-image">
+    <img src="/assets/winner.jpg" alt="">
+</div>
+<div class="loser-page">
+<div class="loser-image">
+    
+</div>
+<video class="loser-video" id="video5">
+
+<source src="/assets/loser-images/5.mp4">
+Your browser does not support HTML5 video.
+</video>
+<video class="loser-video" id="video14">
+
+<source src="/assets/loser-images/14.mp4">
+Your browser does not support HTML5 video.
+</video>
+<video class="loser-video" id="video22">
+
+<source src="/assets/loser-images/22.mp4">
+Your browser does not support HTML5 video.
+</video>
+</div>
+<div class="hash-page">
+    
+</div>
+
+
 <!--<div class="individual-matrix-square" id="<%= index %>"></div>-->
+<!--
 <div class="video-container">
     <video class="individual-matrix-square" autoplay id="<%= index %>" height="100%" width="100%" poster="/assets/poster.png" onclick="this.play(); $('.spin').get(0).play(); setTimeout($('#diamond_ring').get(0).play(),4000); setTimeout($('#diamond_necklace').get(0).play(),4000);  setTimeout($('#gold_watch').get(0).play(),4000);  setTimeout(function myFunction() { console.log('hidingwin');  $('.winner-video').hide(); }, 20000); setTimeout(function showInitial(){ console.log('showingintial'); $('.video-container').show();}, 20000)">
         <source src="/assets/openbox.m4v">
@@ -19,21 +51,28 @@
     </video>  
 
 </div>
-   <% for(var i=0; i<prizes.length; i++) {%>
+-->
+<% for(var i=0; i<prizes.length; i++) {%>
 
     <video class="winner-video" id="<%= prizes[i].id %>" autobuffer loop muted><source src="<%= prizes[i].asset %>">Your browser does not support HTML5 video.</video>
     
-    <% } %>
+<% } %>
 
+<!--
 <div class="result">
     
 </div>
+-->
 
 
 
 <div class="fullscreen" onclick="enterFullscreen()"></div>
 </body>
 <script>
+    function myFunction() {
+        console.log("playing")
+        $(".loser-video")[0].play();
+    }
     $('.winner-video').hide();
     function enterFullscreen() {
     // $('#fullscreen-button').hide();

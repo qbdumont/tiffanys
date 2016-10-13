@@ -1,9 +1,16 @@
+body {
+    position: absolute;
+top: 0;
+left: 0;
+}
+
 .individual-matrix-square {
-height: 100vh;
+    height: 100vh;
     width: 100vw;
     background-color: black;
     color: white;
 }
+
 .matrix-representation {
     width: 12rem;
     height: 15rem;
@@ -12,13 +19,15 @@ height: 100vh;
     list-style: none;
     display: inline-block;
 }
+
 .fullscreen {
-    width:5rem;
+    width: 5rem;
     height: 5rem;
     position: absolute;
-    right:0;
-    bottom:0;
+    right: 0;
+    bottom: 0;
 }
+
 .result {
     background-size: contain;
     height: 100vh;
@@ -26,26 +35,89 @@ height: 100vh;
     background-repeat: no-repeat;
     background-position: center center;
 }
+
 .video-container {
-background-image: url(../assets/bg.png);
+    background-image: url(../assets/bg.png);
     background-size: cover;
     background-position: center center;
     height: 100vh;
-  width: 100%;
+    width: 100%;
 }
+
 .winner-video {
-        position: absolute;
+    position: absolute;
     z-index: 9999999;
     top: 0;
     left: 0;
     height: 100vh;
 }
+
 .spin {
-        position: absolute;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 99999999;
     height: 100% !important;
 }
-.assetString { display:none; }
-.custom_id { display:none; }
+
+.assetString {
+    display: none;
+}
+
+.custom_id {
+    display: none;
+}
+
+.opening-sequence-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.opening-sequence-container img {
+    width: 100%;
+    height: 100%;
+}
+
+.winner-image {
+    width: 100vw;
+    height: 100vh;
+}
+
+.winner-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.loser-page {
+    width: 100vw;
+    height: 100vh;
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.loser-image {
+    z-index: 99999999999999 !important;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.loser-video {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 111vw;
+    height: 100vh;
+}
+.hash-page {
+    z-index: 999999999999999 !important;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image:url('/assets/hash.jpg')
+}
