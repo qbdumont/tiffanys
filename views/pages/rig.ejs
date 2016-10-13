@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+
+
+<ul>
+<% for(var i=1; i<matrixTotal+1; i++) {%>
+   <li class="matrix-representation" id="<%= i %>">
+   <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#instantWin<%= i %>">
+  <%= i %>
+</button>
+<div class="modal fade" id="instantWin<%= i %>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Instant Win <%= i %></h4>
+      </div>
+      <div class="modal-body">
+        The next time this tablet is chosen, they will win:
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle toggleTxt<%= i %>" type="button" data-toggle="dropdown">Dropdown Example
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+             <div id="thisIsMyID"></div>
+             <div id="thisIsMyAsset"></div>
+           <% for(var j=0; j<prizes.length; j++) {%>
+           
+              <li><a class="highPercentage prize" id="<%= i %>"><div><%= prizes[j].name %>,<%= prizes[j].id %>,<%= prizes[j].asset %> </div></a><div class="assetString" id="asset<%= i %>"><%= prizes[j].asset %></div><div class="custom_id" id="<%= prizes[j].id %>"><%= prizes[j].id %></div></li>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="checkbox">
+          <label><input type="checkbox" id="checkbox<%= i %>">Next Touch?</label>
+        </div>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary rigTablet" id="<%= i %>">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+</li>
+<% } %>
+</ul>
+
+
+</body>
+</html>

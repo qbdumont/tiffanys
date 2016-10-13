@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body id="body">
+
+<!--<div class="individual-matrix-square" id="<%= index %>"></div>-->
+<div class="video-container">
+    <video class="individual-matrix-square" autoplay id="<%= index %>" height="100%" width="100%" poster="/assets/poster.png" onclick="this.play(); $('.spin').get(0).play(); setTimeout($('#diamond_ring').get(0).play(),4000); setTimeout($('#diamond_necklace').get(0).play(),4000);  setTimeout($('#gold_watch').get(0).play(),4000);  setTimeout(function myFunction() { console.log('hidingwin');  $('.winner-video').hide(); }, 20000); setTimeout(function showInitial(){ console.log('showingintial'); $('.video-container').show();}, 20000)">
+        <source src="/assets/openbox.m4v">
+
+      Your browser does not support HTML5 video.
+    </video>  
+    <video class="spin"  autoplay id="<%= index %>" height="100%" width="100%">
+        <source src="/assets/spin-video.mp4">
+      Your browser does not support HTML5 video.
+    </video>  
+
+</div>
+   <% for(var i=0; i<prizes.length; i++) {%>
+
+    <video class="winner-video" id="<%= prizes[i].id %>" autobuffer loop muted><source src="<%= prizes[i].asset %>">Your browser does not support HTML5 video.</video>
+    
+    <% } %>
+
+<div class="result">
+    
+</div>
+
+
+
+<div class="fullscreen" onclick="enterFullscreen()"></div>
+</body>
+<script>
+    $('.winner-video').hide();
+    function enterFullscreen() {
+    // $('#fullscreen-button').hide();
+    var elem = document.getElementById("body");
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    }
+    else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+    }
+    else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+    }
+    else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+    }
+}
+    </script>
+</html>
