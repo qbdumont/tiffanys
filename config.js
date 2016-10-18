@@ -1,6 +1,6 @@
 var config = {};
 
-config.rowsInMatrix = 7;
+config.rowsInMatrix = 8;
 
 config.columnsInMatrix = 4;
 
